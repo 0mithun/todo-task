@@ -19,6 +19,8 @@
         <div class="mt-2">
           <input type="email" id="email"  class="input--field" v-model="form.email" @input="() => v$.email.$touch()">
           <span class="error" v-if="v$.email.$invalid">{{ v$.email.$errors[0]?.$message }}</span>
+          <span class="error" v-if="emailError">{{ emailError }}</span>
+
         </div>
       </div>
 
@@ -62,7 +64,7 @@ import Form from "vform";
 import { useVuelidate } from "@vuelidate/core";
 import { email, required, helpers } from "@vuelidate/validators";
 import { useRouter, useRoute } from "vue-router";
-import { reactive, ref } from "vue";
+import { reactive, ref, inject } from "vue";
 import { useUserStore } from "@/store/user";
 
 const userStore = useUserStore();
@@ -70,7 +72,7 @@ const router = useRouter();
 const emitter = inject("emitter");
 
 
-
+const emailError = ref(null)
 const form = reactive(
   new Form({
     name: "",
@@ -119,6 +121,7 @@ const v$ = useVuelidate(rules, form);
 
 const register = async () => {
   try {
+    emailError.value = false
     v$.value.$touch();
     if (v$.value.$invalid) {
       return;
@@ -128,6 +131,10 @@ const register = async () => {
 
     router.push({ name: "login" });
   } catch (error) {
+    console.log(error)
+    if(error.response.status === 422 &&  error.response.data.errors.email) {
+        emailError.value = error.response.data.errors.email[0]
+    }
   }
 };
 </script>

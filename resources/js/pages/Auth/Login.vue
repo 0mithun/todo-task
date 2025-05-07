@@ -49,7 +49,7 @@ import Form from "vform";
 import { useVuelidate } from "@vuelidate/core";
 import { email, required, helpers } from "@vuelidate/validators";
 import { useRouter, useRoute } from "vue-router";
-import { reactive, ref } from "vue";
+import { reactive, ref, inject } from "vue";
 import { useUserStore } from "@/store/user";
 
 const userStore = useUserStore();
