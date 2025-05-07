@@ -101,6 +101,13 @@ class TodoTest extends TestCase
                     ->etc()
             )
         );
+
+        $response = $this->postJson('api/todos', []);
+        $response->assertStatus(422);
+        $response->assertInvalid([
+            'title' => 'The title field is required.',
+            'body'  =>  'The body field is required.'
+        ]);
     }
 
 
@@ -152,6 +159,14 @@ class TodoTest extends TestCase
         ]);
 
         $response->assertStatus(403);
+
+
+        $response = $this->putJson('api/todos/'.$todo->id, []);
+        $response->assertStatus(422);
+        $response->assertInvalid([
+            'title' => 'The title field is required.',
+            'body'  =>  'The body field is required.'
+        ]);
     }
 
 

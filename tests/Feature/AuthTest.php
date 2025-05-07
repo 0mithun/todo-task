@@ -44,6 +44,15 @@ class AuthTest extends TestCase
                 ->where('email', $user->email)
                 ->etc()
         );
+
+        $response = $this->postJson('api/register', []);
+        $response->assertStatus(422);
+        $response->assertInvalid([
+            'name' => 'The name field is required.',
+            'email' => 'The email field is required.',
+            'password'  =>  'The password field is required.'
+        ]);
+
     }
 
 
@@ -70,8 +79,15 @@ class AuthTest extends TestCase
                 ->etc()
             )
             ->has('token')
-        )
-        ;
+        );
+
+
+        $response = $this->postJson('api/login', []);
+        $response->assertStatus(422);
+        $response->assertInvalid([
+            'email' => 'The email field is required.',
+            'password'  =>  'The password field is required.'
+        ]);
     }
 
 
