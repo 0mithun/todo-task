@@ -24,7 +24,7 @@
           <span class="error" v-if="v$.password.$invalid">{{ v$.password.$errors[0]?.$message }}</span>
         </div>
       </div>
-      <div>
+      <div class="">
         <span class="error" v-if="errorMsg">{{ errorMsg }}</span>
       </div>
 
@@ -43,7 +43,6 @@
 
 <script setup>
 import axios from "axios";
-import AuthLayout from "@/layouts/Auth.vue";
 
 import Form from "vform";
 import { useVuelidate } from "@vuelidate/core";

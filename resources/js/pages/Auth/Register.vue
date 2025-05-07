@@ -58,7 +58,6 @@
 
 <script setup>
 import axios from "axios";
-import AuthLayout from "@/layouts/Auth.vue";
 
 import Form from "vform";
 import { useVuelidate } from "@vuelidate/core";
