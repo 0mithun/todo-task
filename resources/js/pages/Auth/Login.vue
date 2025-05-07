@@ -55,6 +55,8 @@ import { useUserStore } from "@/store/user";
 const userStore = useUserStore();
 const router = useRouter();
 const errorMsg = ref(null)
+const emitter = inject("emitter");
+
 
 const form = reactive(
   new Form({
@@ -92,6 +94,7 @@ const login = async () => {
     }
     const res = await form.post(route("login"));
     userStore.setData(res.data);
+    emitter.emit(`show-success-notification`, "Login successfully");
 
     router.push({ name: "dashboard" });
   } catch (error) {

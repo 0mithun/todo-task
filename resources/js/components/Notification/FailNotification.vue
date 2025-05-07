@@ -1,7 +1,7 @@
 <template>
     <div class="nofitication"  v-if="show">
         <div class="nofitication--header">
-            <h4>{{ $t('Notification') }}</h4>
+            <h4>{{ 'Fail' }}</h4>
             <button @click="show = false">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.3133 2.33301L2.15625 15.6663M2.15626 2.33301L15.3133 15.6663" stroke="#135F84" stroke-width="2.5" stroke-linecap="square"/>
@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="nofitication--body">
-            {{ $t(message) }}
+            {{ message }}
         </div>
     </div>
 </template>

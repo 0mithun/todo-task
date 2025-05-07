@@ -67,6 +67,7 @@ import { useUserStore } from "@/store/user";
 
 const userStore = useUserStore();
 const router = useRouter();
+const emitter = inject("emitter");
 
 
 
@@ -123,6 +124,7 @@ const register = async () => {
       return;
     }
     const res = await form.post(route("register"));
+    emitter.emit(`show-success-notification`, "Register successfully");
 
     router.push({ name: "login" });
   } catch (error) {
