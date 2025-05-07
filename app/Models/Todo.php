@@ -12,7 +12,11 @@ class Todo extends Model
 
 
     protected $fillable = [
-        'title', 'body', 'user_id',
+        'title', 'body', 'user_id', 'status'
+    ];
+
+    protected $casts = [
+        'status'    =>  'boolean'
     ];
 
 

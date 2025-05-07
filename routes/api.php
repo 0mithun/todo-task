@@ -23,4 +23,5 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 
 
     Route::apiResource('todos', TodoController::class);
+    Route::patch('todos/{todo}/mark-as-complete', [TodoController::class, 'markAsComplete'])->name('todo.mark-as-complete');
 });

@@ -70,4 +70,18 @@ class TodoController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function markAsComplete(Request $request, Todo $todo)
+    {
+        Gate::authorize('update', $todo);
+
+        $todo->update([
+            'status'    =>  true,
+        ]);
+
+        return response()->json(['data'=>new TodoResource($todo)], Response::HTTP_ACCEPTED);
+    }
 }

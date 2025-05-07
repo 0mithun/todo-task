@@ -20,7 +20,8 @@ class TodoFactory extends Factory
         return [
             'user_id'   =>  fn()=>User::inRandomOrder()->first()->id,
             'title'     =>  $this->faker->sentence(),
-            'body'      =>  $this->faker->text()
+            'body'      =>  $this->faker->text(),
+            'status'    =>  false,
         ];
     }
 }

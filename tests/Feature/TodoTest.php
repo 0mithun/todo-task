@@ -60,6 +60,7 @@ class TodoTest extends TestCase
                 $json->where('id', 1)
                     ->where('title', $todo->title)
                     ->where('body', $todo->body)
+                    ->where('status', false)
                     ->etc()
             )
         );
@@ -88,6 +89,7 @@ class TodoTest extends TestCase
             'title' => $todo->title,
             'body' => $todo->body,
             'user_id'   =>  $user->id,
+            'status'    =>  0
         ]);
 
         $this->assertDatabaseCount('todos', 1);
@@ -98,6 +100,7 @@ class TodoTest extends TestCase
                     ->where('title', $todo->title)
                     ->where('body', $todo->body)
                     ->where('user_id', $todo->user_id)
+                    ->where('status', false)
                     ->etc()
             )
         );
@@ -117,7 +120,7 @@ class TodoTest extends TestCase
     public function testUpdateTodo(): void
     {
         $user = User::factory()->create();
-        Sanctum::actingAs($user);;
+        Sanctum::actingAs($user);
 
         $todo = Todo::factory()->create([
             'user_id'   =>  $user->id,
@@ -129,8 +132,8 @@ class TodoTest extends TestCase
             'title' =>  $new_title,
             'body' =>  $new_body,
         ]);
-
         $response->assertStatus(202);
+
 
         $this->assertDatabaseHas('todos', [
             'title' => $new_title,
@@ -146,6 +149,7 @@ class TodoTest extends TestCase
                     ->where('title', $new_title)
                     ->where('body', $new_body)
                     ->where('user_id', $todo->user_id)
+                    ->where('status', false)
                     ->etc()
             )
         );
@@ -167,6 +171,57 @@ class TodoTest extends TestCase
             'title' => 'The title field is required.',
             'body'  =>  'The body field is required.'
         ]);
+    }
+
+
+
+     /**
+     * A basic feature test example.
+     */
+    public function testMarkAsComplete(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $todo = Todo::factory()->create([
+            'user_id'   =>  $user->id,
+        ]);
+
+        $response = $this->patchJson('api/todos/'.$todo->id.'/mark-as-complete',  [
+            'status' =>  true,
+        ]);
+
+        $response->assertStatus(202);
+
+
+        $this->assertDatabaseHas('todos', [
+            'title' => $todo->title,
+            'body' => $todo->body,
+            'user_id'   =>  $user->id,
+            'status'    => 1
+        ]);
+
+        $this->assertDatabaseCount('todos', 1);
+
+        $response->assertJson(fn(AssertableJson $json)=>
+            $json->has('data', fn(AssertableJson $json)=>
+                $json->where('id', 1)
+                    ->where('title', $todo->title)
+                    ->where('body', $todo->body)
+                    ->where('user_id', $todo->user_id)
+                    ->where('status', true)
+                    ->etc()
+            )
+        );
+
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);;
+
+        $response = $this->patchJson('api/todos/'.$todo->id.'/mark-as-complete',  [
+            'status' =>  true,
+        ]);
+
+        $response->assertStatus(403);
     }
 
 

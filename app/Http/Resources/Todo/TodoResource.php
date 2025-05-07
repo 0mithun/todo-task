@@ -19,6 +19,7 @@ class TodoResource extends JsonResource
             'user_id'   =>  $this->user_id,
             'body'      =>  $this->body,
             'title'     =>  $this->title,
+            'status'    =>  !!$this->status,
             'created_at'=>  $this->created_at,
         ];
     }
