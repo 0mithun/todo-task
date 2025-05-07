@@ -3,6 +3,7 @@ import beforeEach from './beforeEach';
 import auth from './auth'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
 import dashboard from './dashboard'
+import todo from './todo'
 
 
 const routes = [
@@ -17,6 +18,7 @@ const routes = [
                 redirect: 'dashboard',
             },
             ...dashboard,
+            ...todo,
         ]
 
     },
