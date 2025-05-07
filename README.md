@@ -14,6 +14,10 @@
 - Run `docker compose run node npm install`
 - Run `docker compose up -d`
 
+## Run Test
+- Run `docker compose run php php artisan test`
+
+
 
 ## Run Application
 - Run `docker compose up -d`
