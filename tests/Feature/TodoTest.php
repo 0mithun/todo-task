@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use App\Models\Todo;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TodoTest extends TestCase
 {
@@ -18,7 +19,7 @@ class TodoTest extends TestCase
     public function testGetTodos(): void
     {
         $user = User::factory()->create();
-        $this->actingAs($user);
+        Sanctum::actingAs($user);;
 
         $count = mt_rand(30, 120);
 
@@ -40,7 +41,7 @@ class TodoTest extends TestCase
     public function testGetTodo(): void
     {
         $user = User::factory()->create();
-        $this->actingAs($user);
+        Sanctum::actingAs($user);;
 
         $todo = Todo::factory()->create([
             'user_id'   =>  $user->id,
@@ -74,7 +75,7 @@ class TodoTest extends TestCase
     public function testCreateTodo(): void
     {
         $user = User::factory()->create();
-        $this->actingAs($user);
+        Sanctum::actingAs($user);;
 
         $todo = Todo::factory()->make([
             'user_id'   =>  $user->id,
@@ -109,7 +110,7 @@ class TodoTest extends TestCase
     public function testUpdateTodo(): void
     {
         $user = User::factory()->create();
-        $this->actingAs($user);
+        Sanctum::actingAs($user);;
 
         $todo = Todo::factory()->create([
             'user_id'   =>  $user->id,
@@ -143,7 +144,7 @@ class TodoTest extends TestCase
         );
 
         $user = User::factory()->create();
-        $this->actingAs($user);
+        Sanctum::actingAs($user);;
 
         $response = $this->putJson('api/todos/'.$todo->id,  [
             'title' =>  $new_title,
@@ -161,7 +162,7 @@ class TodoTest extends TestCase
     public function testDeleteTodo(): void
     {
         $user = User::factory()->create();
-        $this->actingAs($user);
+        Sanctum::actingAs($user);;
 
         $todo = Todo::factory()->create([
             'user_id'   =>  $user->id,
